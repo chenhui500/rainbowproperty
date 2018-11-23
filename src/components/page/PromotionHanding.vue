@@ -11,19 +11,42 @@
             <el-table :data="tableData" border class="table" ref="multipleTable"
                       :default-sort="{prop: 'date', order: 'descending'}"
                       @selection-change="handleSelectionChange">
-                <el-table-column prop="reward_title" label="标题">
+                <el-table-column prop="promotion_days" label="活动天数">
                 </el-table-column>
-                <el-table-column prop="reward_content" label="说明内容">
+                <el-table-column prop="promotion_content" label="活动简介">
                 </el-table-column>
-
+                <el-table-column prop="promotion_type" label="活动类型">
+                </el-table-column>
+                <el-table-column prop="promotion_state" label="状态">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.promotion_state==0">
+                            启用
+                        </div>
+                        <div v-else>
+                            禁用
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-edit" @click="orderEdit(scope.$index)">
-                            编辑
-                        </el-button>
-                        <el-button type="text" icon="el-icon-edit" @click="showRewardDel(scope.$index)">
-                            删除
-                        </el-button>
+
+                        <div v-if="scope.row.promotion_state==0">
+                            <el-button type="text" icon="el-icon-edit" @click="orderEdit(scope.$index)">
+                                编辑
+                            </el-button>
+                            <el-button type="text" icon="el-icon-edit" @click="showRewardDel(scope.$index)">
+                                禁用
+                            </el-button>
+                        </div>
+                        <div v-else>
+                            <el-button type="text" icon="el-icon-edit" @click="orderEdit(scope.$index)">
+                                编辑
+                            </el-button>
+                            <el-button type="text" icon="el-icon-edit" @click="showRewardDel(scope.$index)">
+                                启用
+                            </el-button>
+                        </div>
+
                     </template>
                 </el-table-column>
 
@@ -44,27 +67,43 @@
                     <el-row>
                         <el-col :span="24">
                             <div style="padding-top: 15px; padding-bottom:15px;text-align: center;font-size: 20px;">
-                                推荐奖励说明
+                                活动详情
                             </div>
                         </el-col>
                     </el-row>
 
                     <el-row>
                         <el-col :span="20">
-                            <el-form-item label="推荐奖励标题:" prop="reward_title">
-                                <el-input v-model="form.reward_title" placeholder="请输入标题内容"></el-input>
+                            <el-form-item label="活动天数:" prop="promotion_days">
+                                <el-input v-model="form.promotion_days" type="number" placeholder="请输入内容"></el-input>
                             </el-form-item>
                         </el-col>
-
                     </el-row>
                     <el-row>
                         <el-col :span="20">
-                            <el-form-item label="推荐奖励内容:" prop="reward_content">
+                            <el-form-item label="活动类型:" prop="promotion_type">
+                                <el-input v-model="form.promotion_type" type="number" placeholder="请输入内容"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="20">
+                            <el-form-item label="状态:" prop="promotion_state">
+                                <template>
+                                    <el-radio v-model="form.promotion_state" label="0">启用</el-radio>
+                                    <el-radio v-model="form.promotion_state" label="1">禁用</el-radio>
+                                </template>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="20">
+                            <el-form-item label="活动内容简介:" prop="promotion_content">
                                 <el-input
                                     type="textarea"
                                     :rows="8"
                                     placeholder="请输入内容"
-                                    v-model="form.reward_content">
+                                    v-model="form.promotion_content">
                                 </el-input>
                             </el-form-item>
                         </el-col>
@@ -94,9 +133,12 @@
             title="提示"
             width="30%"
             :visible.sync="dialogVisible"
-            :before-close="handleClose"  @close='closeDistribution'
+              @close='closeDistribution'
         >
-            <span>确定要删除数据？</span>
+            <span v-if="form.promotion_state==0">
+                确定要禁用该活动？</span>
+            <span v-else>确定要启用该活动？</span>
+            {{form.promotion_state}}
             <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button type="primary" @click="rewardDel">确 定</el-button>
@@ -120,8 +162,10 @@
                 addVisible: true,
                 form: {
                     _id: "",
-                    reward_title: "",
-                    reward_content: ""
+                    promotion_days: "",
+                    promotion_content: "",
+                    promotion_type: 1,
+                    promotion_state: "0"
                 },
                 total: 10,
                 currentPage: 1,
@@ -144,7 +188,7 @@
             //初始化数据
             getData() {
                 //获取所有的数据
-                api.getRewardList(this.cur_page, this.pageSize, {}).then(res => {
+                api.getPromotionList(this.cur_page, this.pageSize, {}).then(res => {
                     this.tableData = res.data.data;
                     this.total = res.data.total;
 
@@ -195,15 +239,19 @@
             //保存新增
             saveAdd() {
 
-                var reward_title = this.form.reward_title
-                var reward_content = this.form.reward_content
+                var promotion_days = this.form.promotion_days
+                var promotion_type = this.form.promotion_type
+                var promotion_state = this.form.promotion_state
+                var promotion_content = this.form.promotion_content
                 //参数
                 var param = {
-                    reward_title: reward_title,
-                    reward_content: reward_content
+                    promotion_days: promotion_days,
+                    promotion_type: promotion_type,
+                    promotion_state: promotion_state,
+                    promotion_content: promotion_content
                 };
                 //执行新增方法
-                api.addReward(param)
+                api.addPromotion(param)
                     .then(res => {
                         res.data.success
                         if (res.data.success) {
@@ -223,36 +271,39 @@
 
                 this.form = {
                     _id: item._id,
-                    reward_title: item.reward_title,
-                    reward_content: item.reward_content
+                    promotion_days: item.promotion_days,
+                    promotion_type: item.promotion_type,
+                    promotion_state: item.promotion_state == 0 ? "0" : "1",
+                    promotion_content: item.promotion_content
                 }
                 this.editVisible = true;
                 this.addVisible = false;
             },
             //显示确认删除框
-            showRewardDel(index){
+            showRewardDel(index) {
                 this.idx = index;
-                this.dialogVisible= true;
+                const item = this.tableData[index];
+                this.form.promotion_state = item.promotion_state;
+                this.dialogVisible = true;
             },
             //删除
             rewardDel() {
-                var index=this.idx;
-                console.log("--index--"+index);
+                var index = this.idx;
                 const item = this.tableData[index];
-                console.log("--item--"+item);
                 //参数
                 var param = {
-                    rewardId: item._id
+                    promotionid: item._id,
+                    promotion_state: item.promotion_state == 0 ? "1" : "0",
                 };
                 //执行新增方法
-                api.delReward(param)
+                api.updatePromotion(param)
                     .then(res => {
                         res.data.success
                         if (res.data.success) {
-                            this.dialogVisible= false;
-                            this.$message.success("删除成功");
+                            this.dialogVisible = false;
+                            this.$message.success("设置成功");
                         } else {
-                            this.$message.error("删除不成功");
+                            this.$message.error("设置不成功");
                         }
 
                     });

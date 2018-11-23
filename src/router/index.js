@@ -32,9 +32,19 @@ export default new Router({
                     meta: { title: '推荐奖励管理' }
                 },
                 {
-                    path: '/repairinghanding',
-                    component: resolve => require(['../components/page/RepairingHanding.vue'], resolve),
-                    meta: { title: '打印管理' }
+                    path: '/promotionhanding',
+                    component: resolve => require(['../components/page/PromotionHanding.vue'], resolve),
+                    meta: { title: '推广活动管理' }
+                },
+                {
+                    path: '/memberhanding',
+                    component: resolve => require(['../components/page/MemberHanding.vue'], resolve),
+                    meta: { title: '会员管理' }
+                },
+                {
+                    path: '/settinghanding',
+                    component: resolve => require(['../components/page/SettingHanding.vue'], resolve),
+                    meta: { title: '会员管理' }
                 }
             ]
         },

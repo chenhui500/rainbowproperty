@@ -39,28 +39,34 @@
                 collapse: false,
                 items: [
                     {
-                        //icon: 'el-icon-lx-home',
-                        icon: 'el-icon-tickets',
+                        icon: 'el-icon-menu',
                         index: 'dashboard',
                         title: '系统首页'
                     },
                     {
-                        //icon: 'el-icon-lx-cascades',
                         icon: 'el-icon-news',
                         index: 'orderhanding',
                         title: '推荐单管理'
                     },
                     {
-                        //icon: 'el-icon-lx-cascades',
                         icon: 'el-icon-goods',
                         index: 'rewardhanding',
                         title: '推荐奖励管理'
                     },
                     {
-                        //icon: 'el-icon-lx-cascades',
                         icon: 'el-icon-printer',
-                        index: 'repairinghanding',
-                        title: '打印管理'
+                        index: 'promotionhanding',
+                        title: '推广活动管理'
+                    },
+                    {
+                        icon: 'el-icon-star-on',
+                        index: 'memberhanding',
+                        title: '会员管理'
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'settinghanding',
+                        title: '设置'
                     }
                 ]
             }

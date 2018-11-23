@@ -43,6 +43,63 @@ export const delReward = (params) => {
 }
 
 
+//获取活动列表
+export const getPromotionList = (page, prepage, filter) => {
+    return axios.get(
+        `${base}/api/promotion/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+    );
+}
+//修改活动
+export const updatePromotion = (params) => {
+    return axios.post(`${base}/promotion/updatePromotion`, params)
+}
+
+//新增活动
+export const addPromotion = (params) => {
+    return axios.post(`${base}/promotion/addPromotion`, params)
+}
+
+//删除活动
+export const delPromotion = (params) => {
+    return axios.post(`${base}/promotion/delPromotion`, params)
+}
+
+//获取活动列表
+export const getUserList = (page, prepage, filter) => {
+    return axios.get(
+        `${base}/api/user/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+    );
+}
+
+//获取管理员列表
+export const getAdminList = (page, prepage, filter) => {
+    return axios.get(
+        `${base}/api/admin/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+    );
+}
+//新增管理员
+export const addAdminUser = (params) => {
+    return axios.post(`${base}/admin/addAdminUser`, params)
+}
+
+//更新密码
+export const updateAdminUser = (params) => {
+    return axios.post(`${base}/admin/updateAdminUser`, params)
+}
+
+//删除管理员
+export const delAdminUser = (params) => {
+    return axios.post(`${base}/admin/delAdminUser`, params)
+}
+
+
+
+
+
+
+
+
+
 
 //获取维修单
 export const getOrder = (page, prepage, filter) => {

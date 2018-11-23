@@ -51,7 +51,7 @@
                 </el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                            <el-button type="text" icon="el-icon-printer" @click="orderEdit(scope.$index, scope.row,false)">
+                            <el-button type="text" icon="el-icon-edit" @click="orderEdit(scope.$index, scope.row,false)">
                                 编辑
                             </el-button>
                     </template>
