@@ -7,7 +7,7 @@ const path = require('path')
 module.exports = {
   dev: {
     env: require('./dev.env'),
-    port: 8083,
+    port: 8088,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
@@ -40,9 +40,6 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
-
-
-
     productionSourceMap: true,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',

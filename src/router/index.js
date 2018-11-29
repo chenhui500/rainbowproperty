@@ -37,6 +37,12 @@ export default new Router({
                     meta: { title: '推广活动管理' }
                 },
                 {
+                    path: '/synopsishanding',
+                    //component: resolve => require(['../components/page/BaseTable.vue'], resolve),
+                    component: resolve => require(['../components/page/SynopsisHanding.vue'], resolve),
+                    meta: { title: '产品介绍管理' }
+                },
+                {
                     path: '/memberhanding',
                     component: resolve => require(['../components/page/MemberHanding.vue'], resolve),
                     meta: { title: '会员管理' }
@@ -44,7 +50,7 @@ export default new Router({
                 {
                     path: '/settinghanding',
                     component: resolve => require(['../components/page/SettingHanding.vue'], resolve),
-                    meta: { title: '会员管理' }
+                    meta: { title: '设置' }
                 }
             ]
         },

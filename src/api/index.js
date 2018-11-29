@@ -10,6 +10,11 @@ export const requestLogin = params => {
   return axios.post(`${base}/admin/login/`, params).then(res => res.data);
 };
 
+//修改用户等级
+export const updateUserGrade = (params) => {
+    return axios.post(`${base}/user/updateUser`, params)
+}
+
 //获取预约表单信息
 export const getOrderList = (page, prepage, filter) => {
     return axios.get(
@@ -95,46 +100,28 @@ export const delAdminUser = (params) => {
 
 
 
-
-
-
-
-
-
-//获取维修单
-export const getOrder = (page, prepage, filter) => {
-  return axios.get(
-    `${base}/api/order/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
-  );
+//获取简介说明列表
+export const getSynopsisList = (page, prepage, filter) => {
+    return axios.get(
+        `${base}/api/synopsis/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+    );
+}
+//修改简介说明
+export const updateSynopsis = (params) => {
+    return axios.post(`${base}/synopsis/updateSynopsis`, params)
 }
 
-//获取全部维修人员分页信息
-export const getAllMaintenance = () => {
-  return axios.get(`${base}/api/maintenance`)
+//新增简介说明
+export const addSynopsis = (params) => {
+    return axios.post(`${base}/synopsis/addSynopsis`, params)
 }
 
-/*//修改维修单
-export const updateOrder = (id, params) => {
-  return axios.put(`${base}/api/order/${id}`, params);
-}*/
-
-//发送派单维修信息 http://api.yx101.cn/hycDevelop/send/dispatch
-//{"title":"维修价格","orderId":"154105374726676","content":"门出问题了","openID":"oQBciw2BV7CxY7zAxkx-yzEboppI","order_id":"5bda9d33a8cb963909ccf484"}
-export const sendDispatch = (params) => {
-  return axios.post(`${base}/send/dispatch`, params)
+//删除简介说明
+export const delSynopsis = (params) => {
+    return axios.post(`${base}/synopsis/delSynopsis`, params)
 }
 
-//添加基本信息
-export const addBasic = (params) => {
-  return axios.post(`${base}/api/basic`, params);
-}
 
-//获取基本信息
-export const getBasic = () => {
-  return axios.get(`${base}/api/basic`)
-}
 
-//修改基本信息
-export const updateBasicInfo = (id, data) => {
-  return axios.put(`${base}/api/basic/${id}`, data);
-};
+
+
