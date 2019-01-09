@@ -122,6 +122,33 @@ export const delSynopsis = (params) => {
 }
 
 
+//--------------------------会员等级管理---------------------
+//获取会员等级列表
+export const getRankList = (page, prepage, filter) => {
+    return axios.get(
+        `${base}/api/rank/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+    );
+}
+//修改会员等级
+export const updateRank = (params) => {
+    return axios.post(`${base}/rank/updateRank`, params)
+}
+
+//新增会员等级
+export const addRank = (params) => {
+    return axios.post(`${base}/rank/addRank`, params)
+}
+
+//删除会员等级
+export const delRank = (params) => {
+    return axios.post(`${base}/rank/delRank`, params)
+}
+
+//删除会员等级
+export const getRanks = (params) => {
+    return axios.post(`${base}/rank/getRanks`, params)
+}
+
 
 
 

@@ -64,6 +64,11 @@
                         title: '产品介绍管理'
                     },
                     {
+                        icon: 'el-icon-news',
+                        index: 'rankhanding',
+                        title: '会员等级管理'
+                    },
+                    {
                         icon: 'el-icon-star-on',
                         index: 'memberhanding',
                         title: '会员管理'

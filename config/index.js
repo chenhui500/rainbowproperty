@@ -13,7 +13,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/rainbowdb': {
-        target: 'http://localhost:8680/',
+        target: 'http://yuyue.rainbowsystem.cn:8680/',
         pathRewrite: {
           '^/rainbowdb': ''
         },

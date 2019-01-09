@@ -9,8 +9,8 @@
                     <el-option key="1" label="请选择" value=""></el-option>
                     <el-option key="2" label="会员姓名" value="user_name"></el-option>
                     <el-option key="3" label="会员联系电话" value="user_phone"></el-option>
-                    <el-option key="3" label="邀请人（业务员）姓名" value="invite_name"></el-option>
-                    <el-option key="3" label="邀请人（业务员）电话" value="invite_phone"></el-option>
+                    <el-option key="4" label="邀请人（业务员）姓名" value="invite_name"></el-option>
+                    <el-option key="5" label="邀请人（业务员）电话" value="invite_phone"></el-option>
                 </el-select>
                 <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
@@ -18,7 +18,7 @@
             <!--显示列表-->
             <el-table :data="tableData" border class="table" ref="multipleTable"
                       :default-sort="{prop: 'date', order: 'descending'}"
-                      @selection-change="handleSelectionChange">
+                      >
                 <el-table-column prop="user_name" label="会员姓名">
                 </el-table-column>
                 <el-table-column prop="user_phone" label="会员联系电话">
@@ -36,20 +36,11 @@
                 </el-table-column>
                 <el-table-column prop="user_grade" label="用户等级">
                     <template slot-scope="scope">
-                        <div v-if="scope.row.user_grade=='1'">
-                            青铜会员
-                        </div>
-                        <div v-if="scope.row.user_grade=='2'">
-                            白银会员
-                        </div>
-                        <div v-if="scope.row.user_grade=='3'">
-                            黄金会员
-                        </div>
-                        <div v-if="scope.row.user_grade=='4'">
-                            铂金会员
-                        </div>
-                        <div v-if="scope.row.user_grade=='5'">
-                            钻石会员
+
+                        <div v-for="item in rankData">
+                            <div v-if="scope.row.user_grade==item.grade_type">
+                                 {{ item.grade_name }}
+                            </div>
                         </div>
                     </template>
 
@@ -134,12 +125,21 @@
                         <el-col :span="24">
                             <el-form-item label="会员等级:" prop="user_grade">
                                 <template>
-                                    <el-radio v-model="form.user_grade" label="1">青铜会员</el-radio>
+                                    <!--<el-radio v-model="form.user_grade" label="1">青铜会员</el-radio>
                                     <el-radio v-model="form.user_grade" label="2">白银会员</el-radio>
                                     <el-radio v-model="form.user_grade" label="3">黄金会员</el-radio>
                                     <el-radio v-model="form.user_grade" label="4">铂金会员</el-radio>
-                                    <el-radio v-model="form.user_grade" label="5">钻石会员</el-radio>
+                                    <el-radio v-model="form.user_grade" label="5">钻石会员</el-radio>-->
+                                    <el-radio-group v-model="radio" @change="onRadioChange">
+                                    <el-radio :label="item.grade_type" :key="item.grade_type" v-for="item in rankData">{{item.grade_name}}</el-radio>
+                                    </el-radio-group>
                                 </template>
+                               <!-- <template>
+                                    <el-radio v-model="radio" label="1">备选项</el-radio>
+                                    <el-radio v-model="radio" label="2">备选项</el-radio>
+
+                                </template>-->
+
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -178,6 +178,8 @@
                 is_search: false,
                 editVisible: false,
                 delVisible: false,
+                rankData: [],
+                radio:"1",
                 form: {
                     _id: "",
                     user_name: "",
@@ -200,6 +202,10 @@
             this.getData();
         },
         methods: {
+            onRadioChange(item) {
+                this.form.user_grade=item;
+                console.log("item", item);
+            },
             // 分页导航
             handleCurrentChange(val) {
                 this.cur_page = val;
@@ -212,6 +218,14 @@
                 api.getUserList(this.cur_page, this.pageSize, {}).then(res => {
                     this.tableData = res.data.data;
                     this.total = res.data.total;
+
+                })
+
+                //获取所有的数据
+                api.getRankList(1, 100, {}).then(res => {
+                    this.rankData = res.data.data;
+                    console.log( res.data.data);
+                    console.log( res.data.total);
 
                 })
             },
@@ -236,6 +250,8 @@
                     user_grade: item.user_grade,
                     user_type: item.user_type
                 }
+                var n=item.user_grade;
+                this.radio=n
                 this.editVisible = true;
             },
             saveEdit(){

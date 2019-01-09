@@ -43,6 +43,11 @@ export default new Router({
                     meta: { title: '产品介绍管理' }
                 },
                 {
+                    path: '/rankhanding',
+                    component: resolve => require(['../components/page/RankHanding.vue'], resolve),
+                    meta: { title: '会员等级管理' }
+                },
+                {
                     path: '/memberhanding',
                     component: resolve => require(['../components/page/MemberHanding.vue'], resolve),
                     meta: { title: '会员管理' }
