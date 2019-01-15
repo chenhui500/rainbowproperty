@@ -11,11 +11,20 @@ import "babel-polyfill";
 import Print from 'vue-print-nb'
 import $ from 'jquery'
 
+import '../static/ueditor/ueditor.config.js'
+import '../static/ueditor/ueditor.all.min.js'
+import '../static/ueditor/lang/zh-cn/zh-cn.js'
+import '../static/ueditor/ueditor.parse.min.js'
+
+
 Vue.use(Print);  //注册
 Vue.use(ElementUI, { size: 'small' });
 Vue.prototype.$axios = axios;
 Vue.prototype.$moment = moment;
 
+import  VueQuillEditor from 'vue-quill-editor'
+
+Vue.use(VueQuillEditor)
 
 
 //使用钩子函数对路由进行权限跳转
