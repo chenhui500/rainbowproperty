@@ -23,7 +23,6 @@
 </template>
 
 <script>
-
     import {requestLogin} from '@/api/index.js';
     import md5 from "js-md5";
     export default {
@@ -48,7 +47,6 @@
                 //登录
                 if (this.ruleForm.user && this.ruleForm.pwd) {
                     let loginForm=Object.assign({},this.ruleForm)
-
                     var loginParams = {username: loginForm.user, password: loginForm.pwd};
                     requestLogin(loginParams).then(data => {
                         if (data.code == 0) {
@@ -90,7 +88,7 @@
         width:350px;
         margin:-190px 0 0 -175px;
         border-radius: 5px;
-        background: rgba(255,255,255, 0.3);
+        background: hsla(225, 88%, 26%, 0.7);
         overflow: hidden;
     }
     .ms-content{
