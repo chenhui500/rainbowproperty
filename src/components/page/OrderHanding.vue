@@ -7,17 +7,28 @@
 
                 <el-select v-model="select_cate" placeholder="请选择" class="handle-select mr10">
                     <el-option key="1" label="请选择" value=""></el-option>
+                    <el-option key="4" label="好友姓名" value="friends_name"></el-option>
+                    <el-option key="5" label="好友电话" value="friends_phone"></el-option>
                     <el-option key="2" label="推荐人姓名" value="user_name"></el-option>
                     <el-option key="3" label="推荐人电话" value="user_phone"></el-option>
+
                 </el-select>
                 <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+                <label style="padding-left: 10px;"> 服务跟踪状态： </label>
+                <el-select v-model="select_recommended_state" placeholder="请选择" class="handle-select mr10">
+                    <el-option key="0" label="请选择" value=""></el-option>
+                    <el-option key="1" label="未上门服务" value="1"></el-option>
+                    <el-option key="2" label="已上门服务" value="2"></el-option>
+                    <el-option key="3" label="已成交" value="3"></el-option>
+                    <el-option key="4" label="失效" value="4"></el-option>
+                </el-select>
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
             </div>
             <!--显示列表-->
             <el-table :data="tableData" border class="table" ref="multipleTable"
                       :default-sort="{prop: 'date', order: 'descending'}"
                       @selection-change="handleSelectionChange">
-                <el-table-column prop="friends_name" label="姓名">
+                <el-table-column prop="friends_name" label="好友姓名">
                 </el-table-column>
                 <el-table-column prop="friends_phone" label="联系电话">
                 </el-table-column>
@@ -80,7 +91,7 @@
                         <hr>
                         <el-row>
                             <el-col :span="12">
-                                <el-form-item label="姓名:" prop="friends_name">
+                                <el-form-item label="好友姓名:" prop="friends_name">
                                     {{form.friends_name}}
                                 </el-form-item>
                             </el-col>
@@ -177,6 +188,7 @@
                 cur_page: 1,
                 multipleSelection: [],
                 select_cate: '',
+                select_recommended_state:"",
                 select_word: '',
                 del_list: [],
                 is_search: false,
@@ -234,14 +246,28 @@
             search() {
                 this.is_search = true;
                 //选择请选择查询全部否则按条件查询
-                if ("" == this.select_cate) {
+                if ("" == this.select_cate &&( ""==this.select_recommended_state) ){
                     this.getData();
-                } else {
+                }else   {
                     var selectCate = this.select_cate;//下拉框值
+                    var selectRecommendedState = this.select_recommended_state;//下拉框值
                     var selectWord = this.select_word;//输入框的值
-                    var param = {
-                        [selectCate]: selectWord
+                    var param ={}
+                    if("" != this.select_cate &&( ""!=this.select_recommended_state)){
+                         param = {
+                            [selectCate]: selectWord,
+                            recommended_state:selectRecommendedState
+                        }
+                    }else if("" != this.select_cate &&( ""==this.select_recommended_state)){
+                        param = {
+                            [selectCate]: selectWord
+                        }
+                    }else{
+                        param = {
+                            recommended_state:selectRecommendedState
+                        }
                     }
+
                     //请求搜索接口
                     api.getOrderList(this.cur_page, this.pageSize, param)
                         .then(res => {
