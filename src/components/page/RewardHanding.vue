@@ -338,7 +338,7 @@
                     reward_content: reward_content
                 };
                 //执行更新方法
-                /*api.updateReward(param)
+                api.updateReward(param)
                     .then(res => {
                         res.data.success
                         if (res.data.success) {
@@ -349,7 +349,7 @@
                         }
 
                     });
-*/
+
             },
             //保存新增
             saveAdd() {
@@ -386,8 +386,8 @@
                     reward_title: item.reward_title,
                     reward_content: item.reward_content
                 }
-                console.log("===="+item._id)
-                this.upRewardUrl="http://localhost:8088/Ue/updateReward.jsp?id="+item._id;
+                //console.log("===="+item._id)
+                //this.upRewardUrl="http://localhost:8088/Ue/updateReward.jsp?id="+item._id;
                 this.editVisible = true;
                 this.addVisible = false;
             },
