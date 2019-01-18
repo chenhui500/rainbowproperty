@@ -150,5 +150,25 @@ export const getRanks = (params) => {
 }
 
 
+//获取新闻列表
+export const getNewsList = (page, prepage, filter) => {
+    return axios.get(
+        `${base}/api/news/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+    );
+}
+//修改新闻
+export const updateNews = (params) => {
+    return axios.post(`${base}/news/updateNews`, params)
+}
+
+//新增新闻
+export const addNews = (params) => {
+    return axios.post(`${base}/news/addNews`, params)
+}
+
+//删除新闻
+export const delNews = (params) => {
+    return axios.post(`${base}/news/delNews`, params)
+}
 
 
