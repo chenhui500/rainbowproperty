@@ -78,18 +78,18 @@
         <!-- 编辑派单信息 弹出框 -->
         <el-dialog title="" :visible.sync="editVisible" @close='closeDistribution'>
             <div id="printTest">
+                <!-- <iframe v-show="true" style="width: 300px"   id="show-iframe"  frameborder=0 name="showHere" scrolling=auto src="http://localhost:8088/Ue/index.jsp"></iframe>-->
 
-
-                <!--<div v-if="addVisible==true">
-                    <iframe id="add_iframe" name="add_iframe" width="870" height="600" frameborder="0" scrolling=auto src="http://localhost:8088/Ue/index.jsp" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true"   allowfullscreen="true"></iframe>
+                <div v-if="addVisible==true">
+                    <iframe id="add_iframe" name="add_iframe" width="850" height="600" frameborder="0" scrolling=auto src="https://yuyue.rainbowsystem.cn:8888/Ue/index.jsp" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true"   allowfullscreen="true"></iframe>
                 </div>
                 <div v-else>
 
-                    <iframe id="ed_iframe" name="ed_iframe" width="870" height="600" frameborder="0" scrolling=auto :src="upRewardUrl"   marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true"   allowfullscreen="true"></iframe>
-                </div>-->
+                    <iframe id="ed_iframe" name="ed_iframe" width="850" height="600" frameborder="0" scrolling=auto :src="upRewardUrl"   marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true"   allowfullscreen="true"></iframe>
+                </div>
 
 
-                  <el-form :model="form" label-width="180px" ref="ruleForm">
+                <!--  <el-form :model="form" label-width="180px" ref="ruleForm">
                       <el-row>
                           <el-col :span="24">
                               <div style="padding-top: 15px; padding-bottom:15px;text-align: center;font-size: 20px;">
@@ -109,31 +109,17 @@
                       <el-row>
                           <el-col :span="20">
                               <el-form-item label="推荐奖励内容:" prop="reward_content">
-                                 <!-- <el-input
+                                  <el-input
                                       type="textarea"
                                       :rows="8"
                                       placeholder="请输入内容"
                                       v-model="form.reward_content">
-                                  </el-input>-->
-                                  <div class="edit_container">
-                                      <!--  新增时输入 -->
-                                      <quill-editor
-                                          v-model="form.reward_content"
-                                          ref="myQuillEditor"
-                                          :options="editorOption"
-                                          @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
-                                          @change="onEditorChange($event)">
-                                      </quill-editor>
-                                      <!-- 从数据库读取展示 -->
-                                      <!--<div v-html="str" class="ql-editor">
-                                          {{str}}
-                                      </div>-->
-                                  </div>
+                                  </el-input>
                               </el-form-item>
                           </el-col>
                       </el-row>
 
-                  </el-form>
+                  </el-form>-->
 
             </div>
 
@@ -141,12 +127,14 @@
 
 
                 <div v-if="addVisible==true">
-                    <el-button @click="editVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveAdd">确 定</el-button>
+                    <el-button @click="editVisible = false">关 闭</el-button>
+                   <!-- <el-button @click="editVisible = false">取 消</el-button>-->
+                   <!-- <el-button type="primary" @click="saveAdd">确 定</el-button>-->
                 </div>
                 <div v-else>
-                    <el-button @click="editVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveEdit">确 定</el-button>
+                    <el-button @click="editVisible = false">关 闭</el-button>
+                    <!--<el-button @click="editVisible = false">取 消</el-button>-->
+                    <!--<el-button type="primary" @click="saveEdit">确 定</el-button>-->
                 </div>
 
             </div>
@@ -165,11 +153,6 @@
             <el-button type="primary" @click="rewardDel">确 定</el-button>
           </span>
         </el-dialog>
-
-
-
-
-
     </div>
 </template>
 
@@ -178,15 +161,7 @@
     import * as api from '@/api/index.js';
     import moment from 'moment';
 
-    import { quillEditor } from "vue-quill-editor"; //调用编辑器
-    import 'quill/dist/quill.core.css';
-    import 'quill/dist/quill.snow.css';
-    import 'quill/dist/quill.bubble.css';
-
     export default {
-        components: {
-            quillEditor
-        },
         name: 'hello',
         components: {UE},
         props: {
@@ -194,11 +169,7 @@
         },
         data() {
             return {
-                content: ``,
-                str: '',
-                editorOption: {},
-
-                upRewardUrl:"http://localhost:8088/Ue/updateReward.jsp",
+                upRewardUrl:"https://yuyue.rainbowsystem.cn:8888/Ue/updateReward.jsp",
                 iframeState:false,
                 goBackState:false,
                 webAddress: [
@@ -242,29 +213,8 @@
             }
         },
 
-        computed: {
-            editor() {
-                return this.$refs.myQuillEditor.quill;
-            },
-        },
-        mounted() {
-            let content = '';  // 请求后台返回的内容字符串
-            this.str = this.escapeStringHTML(content);
-        },
+
         methods: {
-            onEditorReady(editor) { // 准备编辑器
-
-            },
-            onEditorBlur(){}, // 失去焦点事件
-            onEditorFocus(){}, // 获得焦点事件
-            onEditorChange(){}, // 内容改变事件
-            // 转码
-            escapeStringHTML(str) {
-                str = str.replace(/&lt;/g,'<');
-                str = str.replace(/&gt;/g,'>');
-                return str;
-            },
-
             goBack(){
                 this.goBackState = false;
                 this.iframeState = false;
@@ -355,7 +305,7 @@
             saveAdd() {
 
 
-                 var reward_title = this.form.reward_title
+                /* var reward_title = this.form.reward_title
                  var reward_content = this.form.reward_content
                  //参数
                  var param = {
@@ -374,7 +324,7 @@
                          }
 
                      });
-
+                 */
             },
             //弹出详情编辑框
             orderEdit(index) {
@@ -386,8 +336,8 @@
                     reward_title: item.reward_title,
                     reward_content: item.reward_content
                 }
-                //console.log("===="+item._id)
-                //this.upRewardUrl="http://localhost:8088/Ue/updateReward.jsp?id="+item._id;
+                console.log("===="+item._id)
+                this.upRewardUrl="https://yuyue.rainbowsystem.cn:8888/Ue/updateReward.jsp?id="+item._id;
                 this.editVisible = true;
                 this.addVisible = false;
             },

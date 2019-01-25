@@ -35,20 +35,52 @@
 
 
 
+
         <!-- 编辑派单信息 弹出框 -->
         <el-dialog title="" :visible.sync="editVisible" @close='closeDistribution'>
             <div id="printTest">
-                <!-- <iframe v-show="true" style="width: 300px"   id="show-iframe"  frameborder=0 name="showHere" scrolling=auto src="http://localhost:8088/Ue/index.jsp"></iframe>-->
-
-                <div v-if="addVisible==true">
-                    <iframe id="add_iframe" name="add_iframe" width="850" height="600" frameborder="0" scrolling=auto src="https://yuyue.rainbowsystem.cn:8888/Ue/addNews.jsp" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true"   allowfullscreen="true"></iframe>
-                </div>
-                <div v-else>
-
-                    <iframe id="ed_iframe" name="ed_iframe" width="850" height="600" frameborder="0" scrolling=auto :src="upRewardUrl"   marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true"   allowfullscreen="true"></iframe>
-                </div>
 
 
+                  <el-form :model="form" label-width="180px" ref="ruleForm">
+                      <el-row>
+                          <el-col :span="24">
+                              <div style="padding-top: 15px; padding-bottom:15px;text-align: center;font-size: 20px;">
+                                  新闻
+                              </div>
+                          </el-col>
+                      </el-row>
+
+                      <el-row>
+                          <el-col :span="20">
+                              <el-form-item label="新闻标题:" prop="news_title">
+                                  <el-input v-model="form.news_title" placeholder="请输入标题内容"></el-input>
+                              </el-form-item>
+                          </el-col>
+
+                      </el-row>
+                      <el-row>
+                          <el-col :span="20">
+                              <el-form-item label="新闻内容:" prop="news_content">
+
+                                  <div class="edit_container">
+                                      <!--  新增时输入 -->
+                                      <quill-editor
+                                          v-model="form.news_content"
+                                          ref="myQuillEditor"
+                                          :options="editorOption"
+                                          @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+                                          @change="onEditorChange($event)">
+                                      </quill-editor>
+                                      <!-- 从数据库读取展示 -->
+                                      <!--<div v-html="str" class="ql-editor">
+                                          {{str}}
+                                      </div>-->
+                                  </div>
+                              </el-form-item>
+                          </el-col>
+                      </el-row>
+
+                  </el-form>
 
             </div>
 
@@ -56,14 +88,12 @@
 
 
                 <div v-if="addVisible==true">
-                    <el-button @click="editVisible = false">关 闭</el-button>
-                    <!-- <el-button @click="editVisible = false">取 消</el-button>-->
-                    <!-- <el-button type="primary" @click="saveAdd">确 定</el-button>-->
+                    <el-button @click="editVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="saveAdd">确 定</el-button>
                 </div>
                 <div v-else>
-                    <el-button @click="editVisible = false">关 闭</el-button>
-                    <!--<el-button @click="editVisible = false">取 消</el-button>-->
-                    <!--<el-button type="primary" @click="saveEdit">确 定</el-button>-->
+                    <el-button @click="editVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="saveEdit">确 定</el-button>
                 </div>
 
             </div>
@@ -83,6 +113,10 @@
           </span>
         </el-dialog>
 
+
+
+
+
     </div>
 </template>
 
@@ -91,7 +125,15 @@
     import * as api from '@/api/index.js';
     import moment from 'moment';
 
+    import { quillEditor } from "vue-quill-editor"; //调用编辑器
+    import 'quill/dist/quill.core.css';
+    import 'quill/dist/quill.snow.css';
+    import 'quill/dist/quill.bubble.css';
+
     export default {
+        components: {
+            quillEditor
+        },
         name: 'hello',
         components: {UE},
         props: {
@@ -99,21 +141,12 @@
         },
         data() {
             return {
-                upRewardUrl:"https://yuyue.rainbowsystem.cn:8888/Ue/updateNews.jsp",
+                content: ``,
+                str: '',
+                editorOption: {},
+
                 iframeState:false,
                 goBackState:false,
-                webAddress: [
-                    {
-                        name:'segmentFault',
-                        link:'http://localhost:8088/Ue/index.jsp'
-                    }
-                ],
-                defaultMsg: '这里是UE测试',
-                config: {
-                    initialFrameWidth: null,
-                    initialFrameHeight: 350,
-                    UEDITOR_HOME_URL:'static/ueditor/'
-                },
                 html: '',
                 dialogVisible: false,
                 tableData: [],
@@ -122,8 +155,8 @@
                 addVisible: true,
                 form: {
                     _id: "",
-                    reward_title: "",
-                    reward_content: ""
+                    news_title: "",
+                    news_content: ""
                 },
                 total: 10,
                 currentPage: 1,
@@ -143,8 +176,29 @@
             }
         },
 
-
+        computed: {
+            editor() {
+                return this.$refs.myQuillEditor.quill;
+            },
+        },
+        mounted() {
+            let content = '';  // 请求后台返回的内容字符串
+            this.str = this.escapeStringHTML(content);
+        },
         methods: {
+            onEditorReady(editor) { // 准备编辑器
+
+            },
+            onEditorBlur(){}, // 失去焦点事件
+            onEditorFocus(){}, // 获得焦点事件
+            onEditorChange(){}, // 内容改变事件
+            // 转码
+            escapeStringHTML(str) {
+                str = str.replace(/&lt;/g,'<');
+                str = str.replace(/&gt;/g,'>');
+                return str;
+            },
+
             goBack(){
                 this.goBackState = false;
                 this.iframeState = false;
@@ -191,8 +245,8 @@
             },
             //弹出新增框
             addReward() {
-                this.form.reward_title = "";
-                this.form.reward_content = "";
+                this.form.news_title = "";
+                this.form.news_content = "";
                 this.editVisible = true;
                 this.addVisible = true;
             },
@@ -208,10 +262,52 @@
             // 保存编辑
             saveEdit() {
 
+                var id = this.form._id;
+                var news_title = this.form.news_title
+                var news_content = this.form.news_content
+                //更新参数
+                var param = {
+                    newsId: id,
+                    news_title: news_title,
+                    news_content: news_content
+                };
+                //执行更新方法
+                api.updateNews(param)
+                    .then(res => {
+                        res.data.success
+                        if (res.data.success) {
+                            this.editVisible = false;
+                            this.$message.success("修改成功");
+                        } else {
+                            this.$message.error("派单不成功");
+                        }
+
+                    });
 
             },
             //保存新增
             saveAdd() {
+
+
+                 var news_title = this.form.news_title
+                 var news_content = this.form.news_content
+                 //参数
+                 var param = {
+                     news_title: news_title,
+                     news_content: news_content
+                 };
+                 //执行新增方法
+                 api.addNews(param)
+                     .then(res => {
+                         res.data.success
+                         if (res.data.success) {
+                             this.editVisible = false;
+                             this.$message.success("添加成功");
+                         } else {
+                             this.$message.error("添加不成功");
+                         }
+
+                     });
 
             },
             //弹出详情编辑框
@@ -224,8 +320,6 @@
                     news_title: item.news_title,
                     news_content: item.news_content
                 }
-                console.log("===="+item._id)
-                this.upRewardUrl="https://yuyue.rainbowsystem.cn:8888/Ue/updateNews.jsp?id="+item._id;
                 this.editVisible = true;
                 this.addVisible = false;
             },
@@ -319,20 +413,3 @@
         margin-bottom: 10px;
     }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
