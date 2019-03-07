@@ -1,7 +1,7 @@
 import config from '@/config'
 import axios from 'axios';
 
-let base = config[process.env.NODE_ENV].host; //接口地址
+let base = config[process.env.NODE_ENV].host+"rainbowdb"; //接口地址
 console.log('url => %s', base);
 
 
@@ -14,7 +14,12 @@ export const requestLogin = params => {
 export const updateUserGrade = (params) => {
     return axios.post(`${base}/user/updateUser`, params)
 }
-
+//获取预约表单所有信息
+export const getOrderLists = () => {
+    return axios.get(
+        `${base}/order/getOrderLists`
+    );
+}
 //获取预约表单信息
 export const getOrderList = (page, prepage, filter) => {
     return axios.get(
@@ -170,5 +175,24 @@ export const addNews = (params) => {
 export const delNews = (params) => {
     return axios.post(`${base}/news/delNews`, params)
 }
+
+//新增轮播图片
+export const addCarouselImg = (params) => {
+    return axios.post(`${base}/carousel/addCarouselImg`, params)
+}
+
+//删除轮播图片
+export const delCarouselImg = (params) => {
+    return axios.post(`${base}/carousel/delCarouselImg`, params)
+}
+
+//轮播图片列表
+export const getCarouselImgLists = (page, prepage, filter) => {
+    return axios.get(
+        `${base}/api/carousel/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+    );
+}
+
+
 
 

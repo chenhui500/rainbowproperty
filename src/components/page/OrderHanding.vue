@@ -23,6 +23,8 @@
                     <el-option key="4" label="失效" value="4"></el-option>
                 </el-select>
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
+
+                <el-button type="success" @click="outExe">导出Excel</el-button>
             </div>
             <!--显示列表-->
             <el-table :data="tableData" border class="table" ref="multipleTable"
@@ -185,6 +187,7 @@
                 imgSrc: "",
                 showFlag: false,
                 tableData: [],
+                outExeData: [],
                 cur_page: 1,
                 multipleSelection: [],
                 select_cate: '',
@@ -223,6 +226,7 @@
         },
         created() {
             this.getData();
+
         },
 
 
@@ -235,13 +239,18 @@
 
             // 初始化数据
             getData() {
-                //获取所有的数据
+                //获取分页的数据
                 api.getOrderList(this.cur_page, this.pageSize, {}).then(res => {
                     this.tableData = res.data.data;
                     this.total = res.data.total;
 
                 })
+                //获取所有的数据
+                api.getOrderLists().then(res => {
+                    this.outExeData = res.data.data;
+                })
             },
+
             //搜索
             search() {
                 this.is_search = true;
@@ -340,7 +349,39 @@
             //选择查询类别
             handleSelectionChange(val) {
                 this.multipleSelection = val;
+            },
+            // 导出
+            outExe() {
+                this.$confirm('将所有推荐单导出excel文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    console.log(this.outExeData+"-----");
+                    this.excelData =this.outExeData;//datalist; //this.dataList //你要导出的数据list。
+                    this.export2Excel()
+                }).catch(() => {
+
+                });
+            },
+            export2Excel() {
+                let moment = require("moment");
+                var that = this;
+                require.ensure([], () => {
+
+                    const { export_json_to_excel } = require('@/excel/Expor2Excal'); //这里必须使用绝对路径
+                    const tHeader = ['好友姓名','联系电话', '地址', '预约日期','预约时间','推荐人姓名','推荐人电话','参加活动结束日期','服务跟踪状态']; // 导出的表头名
+                    const filterVal = ['friends_name','friends_phone','friends_address', 'appointment_date','appointment_specific_time','user_name','user_phone','end_date','recommended_state']; // 导出的表头字段名
+                    const list = that.excelData;
+                    const data = that.formatJson(filterVal, list);
+                    let  time2 =moment().format('YYYY-MM-DD HH:mm:ss');
+                    export_json_to_excel(tHeader, data, `[${time2}]推荐单表格`);// 导出的表格名称，根据需要自己命名
+                })
+            },
+            formatJson(filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]))
             }
+
         },
 
     }

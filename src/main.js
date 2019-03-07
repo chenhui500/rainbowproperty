@@ -10,6 +10,9 @@ import '../static/css/icon.css';
 import "babel-polyfill";
 import Print from 'vue-print-nb'
 import $ from 'jquery'
+//Excel 导入导出
+import Blob from './excel/Blob.js'
+import Export2Excel from './excel/Expor2Excal.js'
 
 
 Vue.use(Print);  //注册

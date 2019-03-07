@@ -66,7 +66,12 @@
                     {
                         icon: 'el-icon-goods',
                         index: 'newshanding',
-                        title: '页面管理'
+                        title: '推广页面管理'
+                    },
+                    {
+                        icon: 'el-icon-goods',
+                        index: 'carouselhanding',
+                        title: '轮播图片管理'
                     },
                     {
                         icon: 'el-icon-news',

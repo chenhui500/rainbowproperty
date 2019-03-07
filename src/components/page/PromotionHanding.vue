@@ -59,7 +59,7 @@
         </div>
 
 
-        <!-- 编辑派单信息 弹出框 -->
+        <!-- 编辑  弹出框 -->
         <el-dialog title="" :visible.sync="editVisible" @close='closeDistribution'>
             <div id="printTest">
 
@@ -196,8 +196,9 @@
             },
             //弹出新增框
             addReward() {
-                this.form.reward_title = "";
-                this.form.reward_content = "";
+                this.form.promotion_type = "";
+                this.form.promotion_content = "";
+                this.form.promotion_days="";
                 this.editVisible = true;
                 this.addVisible = true;
             },
@@ -214,16 +215,22 @@
             saveEdit() {
 
                 var id = this.form._id;
-                var reward_title = this.form.reward_title
-                var reward_content = this.form.reward_content
+                var promotion_type = this.form.promotion_type
+                var promotion_days = this.form.promotion_days
+                var promotion_content = this.form.promotion_content
+                var promotion_state =  this.form.promotion_state
+
                 //更新参数
                 var param = {
-                    rewardId: id,
-                    reward_title: reward_title,
-                    reward_content: reward_content
+                    promotionid: id,
+                    promotion_days: promotion_days,
+                    promotion_type: promotion_type,
+                    promotion_content: promotion_content,
+                    promotion_state:promotion_state
                 };
+                console.log("===="+param)
                 //执行更新方法
-                api.updateReward(param)
+                api.updatePromotion(param)
                     .then(res => {
                         res.data.success
                         if (res.data.success) {

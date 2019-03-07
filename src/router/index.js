@@ -45,7 +45,12 @@ export default new Router({
                 {
                     path: '/newshanding',
                     component: resolve => require(['../components/page/NewsHanding.vue'], resolve),
-                    meta: { title: '页面管理' }
+                    meta: { title: '推广页面管理' }
+                },
+                {
+                    path: '/carouselhanding',
+                    component: resolve => require(['../components/page/CarouselHanding.vue'], resolve),
+                    meta: { title: '轮播图片管理' }
                 },
                 {
                     path: '/rankhanding',

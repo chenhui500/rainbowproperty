@@ -6,13 +6,21 @@
             <div class="handle-box">
                 <el-button type="primary" @click="addReward">新 增</el-button>
 
+
+            </div>
+            <div class="handle-box">
+                <label style="color: #20a0ff">备注说明（推广类型）：0 默认推广文章 ; 1 加入我们 ; 2 客户开放日; 3 彩虹生活 ;4 配件展示</label>
             </div>
             <!--显示列表-->
             <el-table :data="tableData" border class="table" ref="multipleTable"
                       :default-sort="{prop: 'date', order: 'descending'}"
                       @selection-change="handleSelectionChange">
-                <el-table-column prop="news_title" label="新闻标题">
+                <el-table-column prop="news_title" label="推广标题">
                 </el-table-column>
+
+                <el-table-column prop="news_type" label="推广类型">
+                </el-table-column>
+
 
                 <el-table-column label="操作">
                     <template slot-scope="scope">
@@ -123,6 +131,7 @@
                 form: {
                     _id: "",
                     reward_title: "",
+                    news_type: "",
                     reward_content: ""
                 },
                 total: 10,

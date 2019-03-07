@@ -58,6 +58,9 @@
                             编辑
                         </el-button>
 
+                        <el-button type="text" icon="el-icon-edit" @click="showChangeUserRole(scope.$index)">
+                             角色变更
+                        </el-button>
 
                     </template>
                 </el-table-column>
@@ -156,6 +159,21 @@
 
         </el-dialog>
 
+
+        <!--变更角色-->
+        <el-dialog
+            title="提示"
+            width="30%"
+            :visible.sync="roleDialogVisible"
+            @close='closeDistribution'
+        >
+            <span>{{roleName}}</span>
+            <span slot="footer" class="dialog-footer">
+            <el-button @click="roleDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="changeUserRole">确 定</el-button>
+          </span>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -167,6 +185,8 @@
     export default {
         data() {
             return {
+                roleName:"",
+                roleDialogVisible:false,
                 dialogFormVisible: false,
                 resource: '',
                 dialogVisible: false,
@@ -195,7 +215,8 @@
                 total: 10,
                 currentPage: 1,
                 pageSize: 10,
-                idx: -1
+                idx: -1,
+                userid:0
             }
         },
         created() {
@@ -233,6 +254,7 @@
             closeDistribution() {
                 this.getData();
                 this.editVisible = false;
+                this.roleDialogVisible= false;
             },
             //弹出详情编辑框
             editUser(index) {
@@ -253,6 +275,54 @@
                 var n=item.user_grade;
                 this.radio=n
                 this.editVisible = true;
+            },
+            showChangeUserRole(index){
+                this.userid = index;
+                const item = this.tableData[index];
+                let userType=item.user_type;
+                if(userType=="1"){
+                    this.roleName="确定变更成会员用户？"
+                }else{
+                    this.roleName="确定变更成业务员？"
+                }
+
+                this.roleDialogVisible= true;
+            },
+            //变更角色
+            changeUserRole(){
+
+                var index=this.userid;
+                const item = this.tableData[index];
+                console.log("====="+item.user_type=="1"?"0":"1")
+                //参数
+                var param = {
+                    uid: item._id,
+                    user_type:item.user_type=="1"?"0":"1"
+                };
+                api.updateUserGrade(param)
+                    .then(res => {
+                        res.data.success
+                        if(res.data.success){
+                            this.roleDialogVisible = false;
+                            this.$message.success("修改成功");
+                        }else{
+                            this.$message.error("修改不成功");
+                        }
+
+                    });
+                /*//执行
+                api.updateUser(param)
+                    .then(res => {
+                        res.data.success
+                        if (res.data.success) {
+                            this.roleDialogVisible= false;
+                            this.$message.success("变更成功");
+                        } else {
+                            this.$message.error("变更不成功");
+                        }
+
+                    });*/
+
             },
             saveEdit(){
                 var id = this.form._id;
