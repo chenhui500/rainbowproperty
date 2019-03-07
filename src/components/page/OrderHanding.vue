@@ -23,8 +23,8 @@
                     <el-option key="4" label="失效" value="4"></el-option>
                 </el-select>
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
-
-                <el-button type="success" @click="outExe">导出Excel</el-button>
+                <!--导出Excel-->
+                <el-button type="success" @click="outExe" >导出Excel</el-button>
             </div>
             <!--显示列表-->
             <el-table :data="tableData" border class="table" ref="multipleTable"

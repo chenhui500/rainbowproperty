@@ -58,18 +58,18 @@
                         index: 'promotionhanding',
                         title: '推广活动管理'
                     },
-                    {
+                  /*  {
                         icon: 'el-icon-news',
                         index: 'synopsishanding',
                         title: '产品介绍管理'
-                    },
+                    },*/
                     {
                         icon: 'el-icon-goods',
                         index: 'newshanding',
                         title: '推广页面管理'
                     },
                     {
-                        icon: 'el-icon-goods',
+                        icon: 'el-icon-edit-outline',
                         index: 'carouselhanding',
                         title: '轮播图片管理'
                     },

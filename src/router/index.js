@@ -36,12 +36,12 @@ export default new Router({
                     component: resolve => require(['../components/page/PromotionHanding.vue'], resolve),
                     meta: { title: '推广活动管理' }
                 },
-                {
+                /*{
                     path: '/synopsishanding',
                     //component: resolve => require(['../components/page/BaseTable.vue'], resolve),
                     component: resolve => require(['../components/page/SynopsisHanding.vue'], resolve),
                     meta: { title: '产品介绍管理' }
-                },
+                },*/
                 {
                     path: '/newshanding',
                     component: resolve => require(['../components/page/NewsHanding.vue'], resolve),

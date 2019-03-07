@@ -9,7 +9,7 @@
 
             </div>
             <div class="handle-box">
-                <label style="color: #20a0ff">备注说明（推广类型）：0 默认推广文章 ; 1 加入我们 ; 2 客户开放日; 3 彩虹生活 ;4 配件展示</label>
+                <label style="color: #20a0ff">备注说明（推广类型 1234是首页固定位置展示内容，0是可以添加多条推广内容）：0 默认推广文章 ; 1 加入我们 ; 2 客户开放日; 3 彩虹生活 ;4 配件展示</label>
             </div>
             <!--显示列表-->
             <el-table :data="tableData" border class="table" ref="multipleTable"
