@@ -246,7 +246,10 @@
 
                 })
                 //获取所有的数据
-                api.getOrderLists().then(res => {
+                /*api.getOrderLists().then(res => {
+                    this.outExeData = res.data.data;
+                })*/
+                api.getMyOrderLists().then(res => {
                     this.outExeData = res.data.data;
                 })
             },
@@ -358,7 +361,7 @@
                     type: 'warning'
                 }).then(() => {
                     console.log(this.outExeData+"-----");
-                    this.excelData =this.outExeData;//datalist; //this.dataList //你要导出的数据list。
+                    this.excelData =this.outExeData; //你要导出的数据list。
                     this.export2Excel()
                 }).catch(() => {
 
@@ -370,8 +373,8 @@
                 require.ensure([], () => {
 
                     const { export_json_to_excel } = require('@/excel/Expor2Excal'); //这里必须使用绝对路径
-                    const tHeader = ['好友姓名','联系电话', '地址', '预约日期','预约时间','推荐人姓名','推荐人电话','参加活动结束日期','服务跟踪状态']; // 导出的表头名
-                    const filterVal = ['friends_name','friends_phone','friends_address', 'appointment_date','appointment_specific_time','user_name','user_phone','end_date','recommended_state']; // 导出的表头字段名
+                    const tHeader = ['业务员名字','业务员电话','客户名字','客户电话','挚友名字','挚友电话', '挚友地址', '预约日期','预约时间','参加活动结束日期','服务状态','推荐挚友日期']; // 导出的表头名
+                    const filterVal = ['salesman_name','salesman_phone','user_name','user_phone','friends_name','friends_phone','friends_address', 'appointment_date','appointment_specific_time','end_date','recommended_state','create_time']; // 导出的表头字段名
                     const list = that.excelData;
                     const data = that.formatJson(filterVal, list);
                     let  time2 =moment().format('YYYY-MM-DD HH:mm:ss');

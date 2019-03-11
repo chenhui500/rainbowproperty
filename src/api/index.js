@@ -20,6 +20,12 @@ export const getOrderLists = () => {
         `${base}/order/getOrderLists`
     );
 }
+//获取预约表单业务员下面所有的客户信息
+export const getMyOrderLists = () => {
+    return axios.get(
+        `${base}/order/getMyOrderLists`
+    );
+}
 //获取预约表单信息
 export const getOrderList = (page, prepage, filter) => {
     return axios.get(
