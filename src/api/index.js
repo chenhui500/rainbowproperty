@@ -21,7 +21,7 @@ export const getOrderLists = () => {
     );
 }
 //获取预约表单业务员下面所有的客户信息
-export const getMyOrderLists = () => {
+export const getMyOrderLists = (params) => {
     return axios.get(
         `${base}/order/getMyOrderLists`
     );
@@ -29,9 +29,19 @@ export const getMyOrderLists = () => {
 //获取预约表单信息
 export const getOrderList = (page, prepage, filter) => {
     return axios.get(
-        `${base}/api/order/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+        //`${base}/api/order/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+        `${base}/api/orderList/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
     );
 }
+
+//获取预约表单信息两个参数
+export const getOrderListTwo = (page, prepage, filter) => {
+    return axios.get(
+        `${base}/api/order/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+        //`${base}/api/orderList/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+    );
+}
+
 //修改预约表单服务类型
 export const updateOrder = (params) => {
     return axios.post(`${base}/order/updateOrder`, params)
@@ -83,7 +93,7 @@ export const delPromotion = (params) => {
 //获取活动列表
 export const getUserList = (page, prepage, filter) => {
     return axios.get(
-        `${base}/api/user/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
+        `${base}/api/userLists/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
     );
 }
 
@@ -197,6 +207,11 @@ export const getCarouselImgLists = (page, prepage, filter) => {
     return axios.get(
         `${base}/api/carousel/?pageNum=${page}&pageSize=${prepage}&filter=${JSON.stringify(filter)}`
     );
+}
+
+//导出指定日期信息
+export const getExportOrderLists = (params) => {
+    return axios.post(`${base}/order/getExportOrderLists`, params)
 }
 
 

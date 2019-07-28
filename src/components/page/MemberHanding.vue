@@ -11,6 +11,7 @@
                     <el-option key="3" label="会员联系电话" value="user_phone"></el-option>
                     <el-option key="4" label="邀请人（业务员）姓名" value="invite_name"></el-option>
                     <el-option key="5" label="邀请人（业务员）电话" value="invite_phone"></el-option>
+                    <el-option key="6" label="会员地址" value="user_address"></el-option>
                 </el-select>
                 <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
@@ -66,8 +67,13 @@
                 </el-table-column>
             </el-table>
             <div class="pagination">
-                <el-pagination background @current-change="handleCurrentChange"
-                               layout="total,  prev, pager, next, jumper" :total="total">
+                <el-pagination
+                               @size-change="handleSizeChange"
+                               @current-change="handleCurrentChange"
+                               :page-sizes="[100, 200, 300, 500, 1000, 2000]"
+                               :page-size="pageSize"
+                               layout="total, sizes, prev, pager, next, jumper"
+                               :total="total" >
                 </el-pagination>
             </div>
         </div>
@@ -212,9 +218,9 @@
                     create_time: "",
                     user_grade: ""
                 },
-                total: 10,
+                total: 0,
                 currentPage: 1,
-                pageSize: 10,
+                pageSize: 100,
                 idx: -1,
                 userid:0
             }
@@ -230,9 +236,14 @@
             // 分页导航
             handleCurrentChange(val) {
                 this.cur_page = val;
-                this.getData();
+                //this.getData();
+                this.search();
             },
-
+            handleSizeChange(val) {
+                this.pageSize=val;
+                console.log(`每页 ${val} 条`);
+                this.search();
+            },
             // 初始化数据
             getData() {
                 //获取所有的数据
